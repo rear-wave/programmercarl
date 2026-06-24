@@ -10,22 +10,20 @@
  */
 class Solution {
 public:
-    ListNode* swapPairs(ListNode* head) {
-        ListNode* _dummyHead = new ListNode(0);
-        _dummyHead->next = head;
-        ListNode* cur = _dummyHead;
-        while (cur->next != nullptr && cur->next->next != nullptr) {
-            ListNode* tmp = cur->next;              // 记录临时节点
-            ListNode* tmp1 = cur->next->next->next; // 记录临时节点
-
-            cur->next = cur->next->next;  // 步骤一
-            cur->next->next = tmp;        // 步骤二
-            cur->next->next->next = tmp1; // 步骤三
-
-            cur = cur->next->next;
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* dummyHead = new ListNode(0);
+        dummyHead->next = head;
+        ListNode* fast = dummyHead;
+        ListNode* slow = dummyHead;
+        while (n-- && fast != nullptr) {
+            fast = fast->next;
         }
-        ListNode* result = _dummyHead->next;
-        delete _dummyHead;
-        return result;
+        fast = fast->next;
+        while (fast != nullptr) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        slow->next = slow->next->next;
+        return dummyHead->next;
     }
 };
